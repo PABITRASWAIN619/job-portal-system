@@ -1,0 +1,55 @@
+.home {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1e2f, #2ecc71);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.home-content {
+  max-width: 800px;
+  color: white;
+}
+
+.home-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.home-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.login-btn {
+  background: rgb(38, 46, 195);
+  color: #1e1e2f;
+}
+
+.signup-btn {
+  background: #2ecc71;
+  color: white;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}

@@ -1,8 +1,8 @@
 /* Full Screen Background */
-.signup-container {
+.auth-container {
   height: 100vh;
   width: 100%;
-  background: linear-gradient(135deg, #1f4037, #99f2c8);
+  background: linear-gradient(135deg, #141e30, #243b55);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,70 +10,101 @@
 }
 
 /* Card */
-.signup-card {
+.auth-card {
   width: 100%;
-  max-width: 400px; /* Ensure it fits any screen */
-  background: #fff;
-  padding: 40px 30px;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px 35px;
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-  animation: fadeIn 0.8s ease-in-out;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
   text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-.signup-card h2 {
+.auth-card h2 {
   margin-bottom: 25px;
-  color: #182848;
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
-/* Inputs */
-.signup-card input {
+/* Inputs and Select */
+.auth-card input,
+.auth-card select {
   width: 100%;
-  padding: 14px;
+  padding: 13px 15px;
   margin-bottom: 18px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 15px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
   transition: 0.3s;
 }
 
+.auth-card input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
 
-.signup-card input:focus {
-  border-color: #4b6cb7;
-  outline: none;
-  box-shadow: 0 0 10px rgba(75, 108, 183, 0.3);
+/* Select dropdown fix */
+.auth-card select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.auth-card select option {
+  color: black;
+}
+
+/* Focus Effect */
+.auth-card input:focus,
+.auth-card select:focus {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Button */
-.signup-card button {
+.auth-card button {
   width: 100%;
-  padding: 12px;
-  background: #1f4037;
-  color: rgb(255, 255, 255);
+  padding: 13px;
+  margin-top: 10px;
+  background: #00c6ff;
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+  color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.signup-card button:hover {
-  background: #16332d;
+.auth-card button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
-/* Login text */
-.signup-card p {
-  text-align: center;
+/* Message */
+.auth-card .message {
   margin-top: 15px;
+  font-size: 14px;
+  color: #ffd700;
+}
+
+/* Link text */
+.auth-card p {
+  margin-top: 20px;
   font-size: 14px;
 }
 
-.signup-card span {
-  color: #1f4037;
-  cursor: pointer;
+.auth-card p a {
+  color: #00c6ff;
   font-weight: bold;
+  text-decoration: none;
+}
+
+.auth-card p a:hover {
+  text-decoration: underline;
 }
 
 /* Animation */
@@ -86,12 +117,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-.signup-message {
-  background: #d4edda;
-  color: #155724;
-  padding: 10px 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-weight: 500;
 }

@@ -1,0 +1,84 @@
+.admin-dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1e2f, #2ecc71);
+}
+
+.admin-dashboard-main {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.job-post-form {
+  background: rgba(0,0,0,0.25);
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  color: white;
+}
+
+.job-post-form input,
+.job-post-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.job-post-form button {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background: #2ecc71;
+  color: #1e1e2f;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.job-post-form button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.job-card {
+  background: rgba(0,0,0,0.25);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  color: white;
+}
+
+.job-card h3 {
+  margin-bottom: 8px;
+}
+
+.job-card p {
+  margin-bottom: 10px;
+}
+
+.applications-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 10px;
+  padding-right: 10px;
+}
+
+.application-card {
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+.application-card.new-app {
+  border-left: 4px solid #ffd700;
+}
+
+.application-card a {
+  color: #ffd700;
+  text-decoration: underline;
+}

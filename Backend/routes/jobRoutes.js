@@ -1,26 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const { createJob, getJobs } = require("../controllers/jobController");
+const protect = require("../middleware/authMiddleware");
 
-router.get("/", (req, res) => {
-  res.send("Job route working ✅");
-});
-
-module.exports = router;
-
-// CREATE JOB
-router.post("/", async (req, res) => {
-  try {
-    const job = await Job.create(req.body);
-    res.status(201).json(job);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// GET ALL JOBS
-router.get("/", async (req, res) => {
-  const jobs = await Job.find();
-  res.json(jobs);
-});
+// ✅ Ensure 'protect' is here so req.user is populated
+router.post("/", protect, createJob); 
+router.get("/", getJobs);
 
 module.exports = router;

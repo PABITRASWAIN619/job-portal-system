@@ -1,0 +1,72 @@
+.profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  padding: 30px;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.avatar-section {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #3b82f6;
+  position: relative;
+}
+
+.avatar-section.editing { cursor: pointer; }
+
+.profile-img { width: 100%; height: 100%; object-fit: cover; }
+
+.avatar-placeholder {
+  font-size: 3rem;
+  color: white;
+  line-height: 120px;
+}
+
+.img-overlay {
+  position: absolute;
+  bottom: 0; width: 100%; background: rgba(0,0,0,0.6);
+  color: white; font-size: 0.7rem; padding: 5px 0;
+}
+
+.role-tag {
+  color: #64748b;
+  text-transform: capitalize;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.skill-badge {
+  background: #eff6ff;
+  color: #2563eb;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin: 5px;
+  display: inline-block;
+  font-size: 0.8rem;
+}
+
+.edit-form input, .edit-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.save-btn { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-right: 10px; }
+.edit-btn { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; }
+.cancel-btn { background: #f1f5f9; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }

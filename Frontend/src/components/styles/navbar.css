@@ -1,41 +1,74 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
 .navbar {
   width: 100%;
   height: 70px;
   padding: 0 60px;
-  background: transparent;
-  position: absolute;
-  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: linear-gradient(90deg, #1f4037, #99f2c8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
+/* Logo */
 .logo {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: bold;
   color: white;
+  text-decoration: none;
 }
 
+/* Right side buttons */
 .nav-buttons {
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 20px;
 }
 
-.btn {
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: 1px solid white;
+/* Links */
+.nav-link {
   color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+/* Signup Button */
+.signup-btn {
+  background: white;
+  color: #1f4037;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 600;
   text-decoration: none;
   transition: 0.3s;
 }
 
-.btn:hover {
-  background: white;
-  color: #333;
+.signup-btn:hover {
+  background: #f2f2f2;
 }
 
-.primary {
-  background: white;
-  color: #333;
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .nav-buttons {
+    gap: 12px;
+  }
 }

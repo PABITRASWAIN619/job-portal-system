@@ -1,72 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 .profile-container {
+  min-height: 100vh;
+  /* Matching your dashboard's deep theme */
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   display: flex;
   justify-content: center;
-  padding: 40px;
-  background: #f8fafc;
-  min-height: 100vh;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .profile-card {
+  /* Glassmorphism: Semi-transparent dark background */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  
   width: 100%;
-  max-width: 500px;
-  text-align: center;
+  max-width: 420px; /* Reduced width to make it less "big" */
   padding: 30px;
   border-radius: 24px;
-  background: white;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-}
-
-.avatar-section {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #3b82f6;
-  position: relative;
-}
-
-.avatar-section.editing { cursor: pointer; }
-
-.profile-img { width: 100%; height: 100%; object-fit: cover; }
-
-.avatar-placeholder {
-  font-size: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  
+  display: flex;
+  flex-direction: column;
   color: white;
-  line-height: 120px;
+  
+  /* Floating Animation */
+  animation: float 4s ease-in-out infinite;
 }
 
-.img-overlay {
-  position: absolute;
-  bottom: 0; width: 100%; background: rgba(0,0,0,0.6);
-  color: white; font-size: 0.7rem; padding: 5px 0;
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
-.role-tag {
-  color: #64748b;
-  text-transform: capitalize;
-  font-weight: 600;
-  margin-bottom: 15px;
+.profile-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #ffd700; /* Gold header to match your logo */
+  letter-spacing: 1px;
 }
 
-.skill-badge {
-  background: #eff6ff;
-  color: #2563eb;
-  padding: 5px 12px;
-  border-radius: 20px;
-  margin: 5px;
-  display: inline-block;
-  font-size: 0.8rem;
+.profile-image-section {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.edit-form input, .edit-form select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+.profile-image {
+  width: 100px; /* Smaller image */
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffd700;
+  padding: 3px;
 }
 
-.save-btn { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-right: 10px; }
-.edit-btn { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; }
-.cancel-btn { background: #f1f5f9; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+/* Inputs: Transparent with bottom border */
+.profile-card input,
+.profile-card textarea {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 12px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.profile-card input::placeholder,
+.profile-card textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.profile-card input:focus,
+.profile-card textarea:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffd700;
+  outline: none;
+}
+
+.profile-card textarea {
+  height: 70px; /* Smaller textarea */
+}
+
+/* Premium Buttons */
+.profile-card button {
+  padding: 12px;
+  border: none;
+  background: linear-gradient(90deg, #ffd700, #ffae00);
+  color: #0f2027;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 5px;
+}
+
+.profile-card button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.back-btn {
+  background: transparent !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffd700 !important;
+  margin-top: 10px !important;
+}
+
+.back-btn:hover {
+  background: rgba(255, 215, 0, 0.1) !important;
+}

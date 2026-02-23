@@ -1,39 +1,50 @@
 const express = require("express");
 const router = express.Router();
-const protect = require("../middleware/authMiddleware");
-const upload = require("../middleware/upload"); // Your multer config
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-// ✅ PUT route to update profile
-router.put("/profile", protect, upload.single("profilePic"), async (req, res) => {
+// SIGNUP: POST /api/users/signup
+router.post("/signup", async (req, res) => {
+  console.log("SIGNUP REQUEST RECEIVED:", req.body);
   try {
-    const { name, role, skills, education, experience } = req.body;
-    
-    // Find user and prepare updates
-    const updateData = {
+    const { name, email, password } = req.body;
+
+    const userExists = await User.findOne({ email });
+    if (userExists) return res.status(400).json({ message: "User already exists" });
+
+    // Hash password here manually
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = await User.create({
       name,
-      role,
-      education,
-      experience,
-      // If skills come as a string, split it into an array
-      skills: typeof skills === "string" ? skills.split(",") : skills 
-    };
+      email,
+      password: hashedPassword
+    });
 
-    // If a new image was uploaded, add the path to the update object
-    if (req.file) {
-      updateData.profilePic = req.file.path;
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user.id, 
-      { $set: updateData },
-      { new: true } // Returns the updated document
-    ).select("-password");
-
-    res.json(updatedUser);
+    console.log("✅ USER SAVED TO DB:", newUser._id);
+    res.status(201).json({ message: "Signup Successful!" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error updating profile" });
+    console.error("❌ SIGNUP ERROR:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// LOGIN: POST /api/users/login
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Wrong password" });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    res.json({ token, user: { id: user._id, name: user.name } });
+  } catch (error) {
+    res.status(500).json({ message: "Login failed" });
   }
 });
 

@@ -1,0 +1,287 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #3f3cbb, #7b4397);
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 40px;
+  color: white;
+}
+
+/* Top Navbar */
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logout-top-btn {
+  background: #ff4d4f;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.logout-top-btn:hover {
+  background: #d9363e;
+  transform: scale(1.05);
+}
+
+/* Success Message */
+.success-message {
+  background: #52c41a;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Job Card */
+.job-card {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  transition: 0.3s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.job-card input {
+  margin: 10px 0;
+}
+
+.job-card button {
+  background: linear-gradient(90deg, #36d1dc, #5b86e5);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.job-card button:hover {
+  transform: scale(1.05);
+}
+
+/* Post Job Form */
+input, textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: none;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+/* Applications */
+.application-item {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.application-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.application-item a {
+  color: #1890ff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.application-item a:hover {
+  text-decoration: underline;
+}
+.page-section {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.post-job-form {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 600px;
+}
+
+.submit-job-btn {
+  background: #ffd700;
+  color: #000;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+.apply-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.apply-section input[type="file"] {
+  font-size: 12px;
+  color: #666;
+  background: #f9f9f9;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.apply-section button {
+  background: #27ae60 !important; /* Green for apply */
+  color: white;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: bold;
+}
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: #0f172a;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 30px;
+}
+
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.success-banner {
+  background: #10b981;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Section Grids */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card, .app-card, .form-card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+}
+
+.card h3 { color: #ffd700; margin-bottom: 5px; }
+.comp { font-weight: bold; color: #94a3b8; margin-bottom: 10px; }
+.desc { font-size: 14px; line-height: 1.5; color: #cbd5e1; }
+
+/* Apply Section */
+.apply-box {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.apply-box input { font-size: 12px; }
+.apply-box button {
+  background: #ffd700;
+  color: black;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* My Applications Styles */
+.app-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.app-right { text-align: right; display: flex; flex-direction: column; gap: 5px; }
+
+.status { color: #3498db; font-size: 13px; font-weight: bold; }
+
+.resume-link {
+  color: #ffd700;
+  text-decoration: none;
+  font-size: 13px;
+  border: 1px solid #ffd700;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Form Styles */
+.form-card {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-card input, .form-card textarea {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.submit-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}

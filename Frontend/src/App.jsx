@@ -2,10 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import UserDashboard from "./pages/UserDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
-
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 function App() {
   return (
     <Routes>
@@ -14,28 +12,11 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      {/* Protected Jobseeker Route */}
-      <Route
-        path="/user-dashboard"
-        element={
-          <ProtectedRoute allowedRole="jobseeker">
-            <UserDashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* Protected Admin Route */}
-      <Route
-        path="/admin-dashboard"
-        element={
-          <ProtectedRoute allowedRole="admin">
-            <AdminDashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* 404 / Catch-all: Redirect unknown paths to Home or Login */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* After Login */}
+    <Route path="/dashboard" element={<Dashboard />} />
+  <Route path="/profile" element={<Profile />} />
+      {/* Catch all */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }

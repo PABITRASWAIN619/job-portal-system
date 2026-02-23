@@ -1,128 +1,108 @@
-import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import api from "../axiosConfig";
 import "./Profile.css";
 
 function Profile() {
-  const [user, setUser] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ name: "", role: "", skills: "" });
-  const [previewImg, setPreviewImg] = useState(null);
-  const fileInputRef = useRef(null);
-  const token = localStorage.getItem("token");
+  const storedUser = JSON.parse(localStorage.getItem("user"));
 
-  // Load User Data
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      setUser(storedUser);
-      setFormData({
-        name: storedUser.name,
-        role: storedUser.role,
-        skills: storedUser.skills?.join(", ") || ""
-      });
-      if (storedUser.profilePic) {
-        setPreviewImg(`http://localhost:5000/${storedUser.profilePic}`);
-      }
-    }
-  }, []);
+  const [name, setName] = useState(storedUser?.name || "");
+  const [role, setRole] = useState(storedUser?.role || "");
+  const [skills, setSkills] = useState("");
+  const [education, setEducation] = useState("");
+  const [experience, setExperience] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
+  const [success, setSuccess] = useState("");
 
-  const handleImageClick = () => {
-    if (isEditing) fileInputRef.current.click();
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPreviewImg(URL.createObjectURL(file)); // Show local preview
-      setFormData({ ...formData, profilePic: file });
-    }
-  };
-
-  const handleSave = async () => {
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("role", formData.role);
-    data.append("skills", formData.skills);
-    if (formData.profilePic) data.append("profilePic", formData.profilePic);
-
+  const updateProfile = async () => {
     try {
-      const res = await axios.put("http://localhost:5000/api/users/profile", data, {
-        headers: { 
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data" 
-        },
+      const token = localStorage.getItem("token");
+
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("role", role);
+      formData.append("skills", skills);
+      formData.append("education", education);
+      formData.append("experience", experience);
+
+      if (profilePic) {
+        formData.append("profilePic", profilePic);
+      }
+
+      const res = await api.put("/api/users/profile", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
-      
+
       localStorage.setItem("user", JSON.stringify(res.data));
-      setUser(res.data);
-      setIsEditing(false);
-      alert("✅ Profile Updated!");
-    } catch (err) {
-      alert("❌ Update failed. Check backend console.");
+
+      setSuccess("Profile Updated Successfully ✅");
+    } catch (error) {
+      console.error(error);
+      alert("Profile update failed");
     }
   };
-
-  if (!user) return <div className="loader">Loading Profile...</div>;
 
   return (
     <div className="profile-container">
-      <div className="profile-card glass-card">
-        <div className={`avatar-section ${isEditing ? "editing" : ""}`} onClick={handleImageClick}>
-          {previewImg ? (
-            <img src={previewImg} alt="Profile" className="profile-img" />
-          ) : (
-            <div className="avatar-placeholder">{user.name.charAt(0)}</div>
-          )}
-          {isEditing && <div className="img-overlay">Change Photo</div>}
-          <input type="file" ref={fileInputRef} style={{ display: "none" }} onChange={handleFileChange} />
-        </div>
+      <div className="profile-card">
+        <h2>My Profile</h2>
 
-        <div className="profile-info-section">
-          {isEditing ? (
-            <div className="edit-form">
-              <input 
-                type="text" 
-                value={formData.name} 
-                onChange={(e) => setFormData({...formData, name: e.target.value})} 
-                placeholder="Your Name"
-              />
-              <select 
-                value={formData.role} 
-                onChange={(e) => setFormData({...formData, role: e.target.value})}
-              >
-                <option value="jobseeker">Job Seeker</option>
-                <option value="employer">Employer</option>
-              </select>
-              <input 
-                type="text" 
-                value={formData.skills} 
-                onChange={(e) => setFormData({...formData, skills: e.target.value})} 
-                placeholder="Skills (comma separated: React, Node)"
-              />
-            </div>
-          ) : (
-            <div className="view-mode">
-              <h1>{user.name}</h1>
-              <p className="role-tag">{user.role}</p>
-              <div className="skills-container">
-                {user.skills?.map((skill, i) => (
-                  <span key={i} className="skill-badge">{skill}</span>
-                ))}
-              </div>
-            </div>
+        {success && <div className="success-msg">{success}</div>}
+
+        <div className="profile-image-section">
+          {storedUser?.profilePic && (
+            <img
+              src={`http://localhost:5000/${storedUser.profilePic}`}
+              alt="Profile"
+              className="profile-image"
+            />
           )}
         </div>
 
-        <div className="profile-actions">
-          {isEditing ? (
-            <>
-              <button className="save-btn" onClick={handleSave}>Save</button>
-              <button className="cancel-btn" onClick={() => setIsEditing(false)}>Cancel</button>
-            </>
-          ) : (
-            <button className="edit-btn" onClick={() => setIsEditing(true)}>Edit Profile</button>
-          )}
-        </div>
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Role (jobseeker/admin)"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Skills (comma separated)"
+          value={skills}
+          onChange={(e) => setSkills(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Education"
+          value={education}
+          onChange={(e) => setEducation(e.target.value)}
+        />
+
+        <textarea
+          placeholder="Experience"
+          value={experience}
+          onChange={(e) => setExperience(e.target.value)}
+        />
+
+        <input
+          type="file"
+          onChange={(e) => setProfilePic(e.target.files[0])}
+        />
+
+       <button onClick={updateProfile}>Update Profile</button>
+<button className="back-btn" onClick={() => window.history.back()}>
+  ← Back to Dashboard
+</button>
       </div>
     </div>
   );

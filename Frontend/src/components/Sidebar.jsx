@@ -1,20 +1,37 @@
-// src/components/Sidebar.jsx
-function Sidebar({ handleLogout, setView }) {
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./Sidebar.css";
+
+function Sidebar({ setActivePage }) {
+  const navigate = useNavigate();
+
   return (
-    <div className="sidebar" style={{ width: "250px", background: "#333", color: "#fff", height: "100vh", position: "sticky", top: 0 }}>
-      <h2>Menu</h2>
-      <ul>
-        <li onClick={() => setView("jobs")} style={{ cursor: "pointer", padding: "10px" }}>
-          🏠 Dashboard / Jobs
-        </li>
-        <li onClick={() => setView("profile")} style={{ cursor: "pointer", padding: "10px" }}>
+    <div className="sidebar">
+      <div className="sidebar-logo">
+        <h2>Job Portal</h2>
+      </div>
+
+      <div className="sidebar-nav">
+        {/* These update the Dashboard content */}
+        <div className="nav-item" onClick={() => setActivePage("view")}>
+          🏠 View Jobs
+        </div>
+
+        <div className="nav-item" onClick={() => setActivePage("post")}>
+          ➕ Post Job
+        </div>
+
+        <div className="nav-item" onClick={() => setActivePage("myapplications")}>
+          📄 My Applications
+        </div>
+
+        {/* ✅ This navigates to the separate Profile page */}
+        <div className="nav-item profile-nav" onClick={() => navigate("/profile")}>
           👤 My Profile
-        </li>
-        <li onClick={handleLogout} style={{ cursor: "pointer", padding: "10px", color: "red", marginTop: "20px" }}>
-          🚪 Logout
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   );
 }
+
 export default Sidebar;

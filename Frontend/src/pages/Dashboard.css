@@ -285,3 +285,55 @@ textarea {
   border-radius: 8px;
   cursor: pointer;
 }
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-profile-pic {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffc107;
+}
+
+.nav-profile-placeholder {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #ffc107;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+.user-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-profile-pic {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffd700;
+}
+
+.nav-profile-placeholder {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: black;
+}

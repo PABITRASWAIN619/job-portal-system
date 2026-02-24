@@ -92,12 +92,12 @@
 }
 
 .login-btn {
-  background: #1e90ff;
-  color: white;
+  background: #ca4d0f;
+  color: rgb(16, 168, 39);
 }
 
 .login-btn:hover {
-  background: #3742fa;
+  background: #37fa3a;
   transform: translateY(-3px) scale(1.05);
 }
 

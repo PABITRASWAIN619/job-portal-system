@@ -6,8 +6,8 @@ import "./Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
 
+  const [user, setUser] = useState(null);   // ✅ FIXED
   const [activePage, setActivePage] = useState("view");
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
@@ -18,12 +18,23 @@ function Dashboard() {
   const [description, setDescription] = useState("");
   const [company, setCompany] = useState("");
 
-  // State for Resume Uploads (Mapping JobID to File)
   const [selectedFiles, setSelectedFiles] = useState({});
 
+  // ✅ LOAD LATEST USER FROM BACKEND
   useEffect(() => {
+    fetchUser();
     fetchJobs();
   }, []);
+
+  const fetchUser = async () => {
+    try {
+      const res = await api.get("/users/profile");
+      setUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data)); // keep synced
+    } catch (err) {
+      console.error("Failed to fetch user", err);
+    }
+  };
 
   const fetchJobs = async () => {
     try {
@@ -49,14 +60,13 @@ function Dashboard() {
 
     const formData = new FormData();
     formData.append("resume", file);
-    formData.append("userId", user?._id || user?.id);
 
     try {
       await api.post(`/applications/${jobId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setSuccessMessage("Applied Successfully! ✅");
-      setSelectedFiles({ ...selectedFiles, [jobId]: null }); // Clear input
+      setSelectedFiles({ ...selectedFiles, [jobId]: null });
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (err) {
       alert("Apply failed. Ensure 'uploads' folder exists in backend.");
@@ -64,12 +74,21 @@ function Dashboard() {
   };
 
   const postJob = async () => {
-    if (!title || !description || !company) return alert("Fill all fields");
+    if (!title || !description || !company)
+      return alert("Fill all fields");
+
     try {
       await api.post("/jobs", { title, description, company });
       setSuccessMessage("Job Posted! 🚀");
-      setTitle(""); setDescription(""); setCompany("");
-      setTimeout(() => { setSuccessMessage(""); setActivePage("view"); fetchJobs(); }, 2000);
+      setTitle("");
+      setDescription("");
+      setCompany("");
+
+      setTimeout(() => {
+        setSuccessMessage("");
+        setActivePage("view");
+        fetchJobs();
+      }, 2000);
     } catch (err) {
       alert("Post failed.");
     }
@@ -77,32 +96,72 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <Sidebar setActivePage={(page) => {
-        setActivePage(page);
-        if (page === "myapplications") fetchMyApplications();
-      }} />
+      <Sidebar
+        setActivePage={(page) => {
+          setActivePage(page);
+          if (page === "myapplications") fetchMyApplications();
+        }}
+      />
 
       <div className="dashboard-content">
         <div className="top-navbar">
-          <h1>Welcome, {user?.name || "User"}</h1>
-          <button className="logout-btn" onClick={() => { localStorage.clear(); navigate("/Home"); }}>Logout</button>
-        </div>
 
-        {successMessage && <div className="success-banner">{successMessage}</div>}
+  <div className="user-info">
+    {user?.profilePic ? (
+      <img
+        src={`http://localhost:5000/${user.profilePic}`}
+        alt="Profile"
+        className="nav-profile-pic"
+      />
+    ) : (
+      <div className="nav-profile-placeholder">
+        {user?.name?.charAt(0).toUpperCase()}
+      </div>
+    )}
+
+    <h1>Welcome, {user?.name || "User"}</h1>
+  </div>
+
+  <button
+    className="logout-btn"
+    onClick={() => {
+      localStorage.clear();
+      navigate("/Home");
+    }}
+  >
+    Logout
+  </button>
+</div>
+
+        {successMessage && (
+          <div className="success-banner">{successMessage}</div>
+        )}
 
         {/* --- VIEW JOBS --- */}
         {activePage === "view" && (
           <div className="section">
             <h2>Available Opportunities</h2>
             <div className="grid">
-              {jobs.map(job => (
+              {jobs.map((job) => (
                 <div key={job._id} className="card">
                   <h3>{job.title}</h3>
                   <p className="comp">{job.company}</p>
                   <p className="desc">{job.description}</p>
+
                   <div className="apply-box">
-                    <input type="file" accept=".pdf" onChange={(e) => setSelectedFiles({...selectedFiles, [job._id]: e.target.files[0]})} />
-                    <button onClick={() => handleApply(job._id)}>Apply Now</button>
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      onChange={(e) =>
+                        setSelectedFiles({
+                          ...selectedFiles,
+                          [job._id]: e.target.files[0],
+                        })
+                      }
+                    />
+                    <button onClick={() => handleApply(job._id)}>
+                      Apply Now
+                    </button>
                   </div>
                 </div>
               ))}
@@ -115,10 +174,26 @@ function Dashboard() {
           <div className="section">
             <h2>Create Job Post</h2>
             <div className="form-card">
-              <input type="text" placeholder="Job Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-              <input type="text" placeholder="Company" value={company} onChange={(e) => setCompany(e.target.value)} />
-              <textarea placeholder="Job Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-              <button className="submit-btn" onClick={postJob}>Publish Job</button>
+              <input
+                type="text"
+                placeholder="Job Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Company"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+              />
+              <textarea
+                placeholder="Job Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <button className="submit-btn" onClick={postJob}>
+                Publish Job
+              </button>
             </div>
           </div>
         )}
@@ -127,18 +202,29 @@ function Dashboard() {
         {activePage === "myapplications" && (
           <div className="section">
             <h2>My Applications</h2>
-            {applications.length === 0 ? <p>No applications yet.</p> : (
+            {applications.length === 0 ? (
+              <p>No applications yet.</p>
+            ) : (
               <div className="app-list">
-                {applications.map(app => (
+                {applications.map((app) => (
                   <div key={app._id} className="app-card">
                     <div>
                       <h4>{app.job?.title}</h4>
                       <p>{app.job?.company}</p>
                     </div>
                     <div className="app-right">
-                      <span className="status">Status: {app.status}</span>
+                      <span className="status">
+                        Status: {app.status}
+                      </span>
                       {app.resume && (
-                        <a href={`http://localhost:5000/${app.resume}`} target="_blank" rel="noreferrer" className="resume-link">📄 View Resume</a>
+                        <a
+                          href={`http://localhost:5000/${app.resume}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="resume-link"
+                        >
+                          📄 View Resume
+                        </a>
                       )}
                     </div>
                   </div>

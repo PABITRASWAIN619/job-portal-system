@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import api from "../axiosConfig";
 import { useNavigate, Link } from "react-router-dom";
 import "./Signup.css";
+
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");   // ✅ Added
 
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    // Check if passwords match
     if (password !== confirmPassword) {
-      return alert("Passwords do not match! ❌");
+      setMessage("❌ Passwords do not match!");
+      return;
     }
 
     try {
@@ -25,10 +27,14 @@ function Signup() {
         password,
       });
 
-      alert("Signup Successful ✅ Please Login.");
-      navigate("/login"); // Go to Login after Signup
+      setMessage("✅ Signup Successful! Redirecting to login...");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+
     } catch (err) {
-      alert(err.response?.data?.message || "Signup Failed ❌");
+      setMessage(err.response?.data?.message || "❌ Signup Failed");
     }
   };
 
@@ -36,14 +42,51 @@ function Signup() {
     <div className="signup-container">
       <div className="signup-card">
         <h2>Create Account 🚀</h2>
+
+        {/* ✅ Show message here */}
+        {message && <p className="signup-message">{message}</p>}
+
         <form onSubmit={handleSignup}>
-          <input type="text" placeholder="Name" required value={name} onChange={(e) => setName(e.target.value)} />
-          <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="password" placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
-          <input type="password" placeholder="Confirm Password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-          <button type="submit" className="signup-btn">Signup</button>
+          <input
+            type="text"
+            placeholder="Name"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+
+          <button type="submit" className="signup-btn">
+            Signup
+          </button>
         </form>
-        <p>Already have an account? <Link to="/login">Login</Link></p>
+
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
     </div>
   );

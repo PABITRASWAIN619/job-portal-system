@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middleware/authMiddleware");
 const multer = require("multer");
+const path = require("path");
 
 // ================= MULTER CONFIG =================
 const storage = multer.diskStorage({
@@ -22,20 +23,13 @@ const upload = multer({ storage });
 router.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
     const userExists = await User.findOne({ email });
-    if (userExists)
-      return res.status(400).json({ message: "User already exists" });
+    if (userExists) return res.status(400).json({ message: "User already exists" });
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
+    const newUser = await User.create({ name, email, password: hashedPassword });
     res.status(201).json({ message: "Signup Successful!" });
   } catch (error) {
     console.error("SIGNUP ERROR:", error);
@@ -47,20 +41,13 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
-    if (!user)
-      return res.status(400).json({ message: "User not found" });
+    if (!user) return res.status(400).json({ message: "User not found" });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Wrong password" });
+    if (!isMatch) return res.status(400).json({ message: "Wrong password" });
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
     res.json({
       token,
@@ -72,6 +59,7 @@ router.post("/login", async (req, res) => {
         education: user.education || "",
         experience: user.experience || "",
         profilePic: user.profilePic || "",
+        resume: user.resume || "",
       },
     });
   } catch (error) {
@@ -84,10 +72,7 @@ router.post("/login", async (req, res) => {
 router.get("/profile", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
-
-    if (!user)
-      return res.status(404).json({ message: "User not found" });
-
+    if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (error) {
     console.error("PROFILE FETCH ERROR:", error);
@@ -96,39 +81,43 @@ router.get("/profile", authMiddleware, async (req, res) => {
 });
 
 // ================= UPDATE PROFILE =================
-router.put(
-  "/profile",
-  authMiddleware,
-  upload.single("profilePic"),
-  async (req, res) => {
-    try {
-      const user = await User.findById(req.user.id);
+router.put("/profile", authMiddleware, upload.single("profilePic"), async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-      if (!user)
-        return res.status(404).json({ message: "User not found" });
+    const { name, skills, education, experience } = req.body;
+    if (name) user.name = name;
+    if (skills) user.skills = skills;
+    if (education) user.education = education;
+    if (experience) user.experience = experience;
+    if (req.file) user.profilePic = req.file.filename;
 
-      const name = req.body?.name;
-      const skills = req.body?.skills;
-      const education = req.body?.education;
-      const experience = req.body?.experience;
-
-      if (name) user.name = name;
-      if (skills) user.skills = skills;
-      if (education) user.education = education;
-      if (experience) user.experience = experience;
-
-      if (req.file) {
-        user.profilePic = req.file.filename;
-      }
-
-      await user.save();
-
-      res.json(user);
-    } catch (error) {
-      console.error("PROFILE UPDATE ERROR:", error);
-      res.status(500).json({ message: "Profile update failed" });
-    }
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    console.error("PROFILE UPDATE ERROR:", error);
+    res.status(500).json({ message: "Profile update failed" });
   }
-);
+});
+
+// ================= UPLOAD RESUME =================
+router.put("/profile/resume", authMiddleware, upload.single("resume"), async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (req.file) {
+      user.resume = req.file.filename;
+      await user.save();
+      res.json({ message: "Resume uploaded successfully", resume: req.file.filename });
+    } else {
+      res.status(400).json({ message: "No file uploaded" });
+    }
+  } catch (error) {
+    console.error("RESUME UPLOAD ERROR:", error);
+    res.status(500).json({ message: "Failed to upload resume" });
+  }
+});
 
 module.exports = router;

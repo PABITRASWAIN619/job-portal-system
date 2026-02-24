@@ -1,168 +1,4 @@
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #3f3cbb, #7b4397);
-}
-
-.dashboard-content {
-  flex: 1;
-  padding: 40px;
-  color: white;
-}
-
-/* Top Navbar */
-.top-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.logout-top-btn {
-  background: #ff4d4f;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.logout-top-btn:hover {
-  background: #d9363e;
-  transform: scale(1.05);
-}
-
-/* Success Message */
-.success-message {
-  background: #52c41a;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-/* Job Card */
-.job-card {
-  background: white;
-  color: black;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 25px;
-  transition: 0.3s ease;
-}
-
-.job-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.job-card input {
-  margin: 10px 0;
-}
-
-.job-card button {
-  background: linear-gradient(90deg, #36d1dc, #5b86e5);
-  border: none;
-  padding: 8px 15px;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.job-card button:hover {
-  transform: scale(1.05);
-}
-
-/* Post Job Form */
-input, textarea {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: none;
-}
-
-textarea {
-  min-height: 100px;
-}
-
-/* Applications */
-.application-item {
-  background: white;
-  color: black;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  transition: 0.3s;
-}
-
-.application-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-}
-
-.application-item a {
-  color: #1890ff;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.application-item a:hover {
-  text-decoration: underline;
-}
-.page-section {
-  animation: fadeIn 0.3s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.post-job-form {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 15px;
-  max-width: 600px;
-}
-
-.submit-job-btn {
-  background: #ffd700;
-  color: #000;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-}
-.apply-section {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.apply-section input[type="file"] {
-  font-size: 12px;
-  color: #666;
-  background: #f9f9f9;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.apply-section button {
-  background: #27ae60 !important; /* Green for apply */
-  color: white;
-  border-radius: 8px;
-  padding: 10px;
-  font-weight: bold;
-}
+/* === General Dashboard Layout === */
 .dashboard-container {
   display: flex;
   min-height: 100vh;
@@ -171,21 +7,120 @@ textarea {
   font-family: 'Poppins', sans-serif;
 }
 
-.dashboard-content {
-  flex: 1;
-  padding: 30px;
+/* === Fixed Sidebar === */
+.sidebar {
+  width: 240px;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: fixed; /* keeps sidebar fixed */
+  top: 0;
+  left: 0;
 }
 
+/* Logo */
+.sidebar-logo h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 24px;
+  color: #ffd700;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  overflow-y: auto; /* scroll if nav items exceed height */
+}
+
+.nav-item {
+  padding: 12px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateX(6px);
+}
+
+/* Logout Button at bottom */
+.logout-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #ff4d4f;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: auto; /* push to bottom */
+}
+
+.logout-btn:hover {
+  background: #d9363e;
+  transform: scale(1.05);
+}
+
+/* === Main Content === */
+.dashboard-content {
+  flex: 1;
+  margin-left: 240px; /* space for fixed sidebar */
+  padding: 30px;
+  overflow-y: auto; /* scrollable content only */
+  max-height: 100vh;
+}
+
+/* === Top Navbar inside content === */
 .top-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #1e293b;
-  padding-bottom: 20px;
-  margin-bottom: 30px;
+  border-bottom: 1px solid #31ad12;
+  padding-bottom: 100px;
+  margin-bottom: 40px;
+  position: sticky; /* stick on scroll */
+  top: 0;
+  background: #2a0f29;
+  z-index: 10;
 }
 
-.logout-btn {
+/* Profile inside navbar */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-profile-pic {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffd700;
+}
+
+.nav-profile-placeholder {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: black;
+}
+
+/* Logout button inside top navbar (optional duplicate style) */
+.logout-btn-top {
   background: #ef4444;
   color: white;
   border: none;
@@ -194,6 +129,7 @@ textarea {
   cursor: pointer;
 }
 
+/* === Success Banner === */
 .success-banner {
   background: #10b981;
   padding: 15px;
@@ -202,7 +138,7 @@ textarea {
   text-align: center;
 }
 
-/* Section Grids */
+/* === Grid Layouts for Jobs / Applications === */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -239,7 +175,7 @@ textarea {
   cursor: pointer;
 }
 
-/* My Applications Styles */
+/* My Applications */
 .app-card {
   display: flex;
   justify-content: space-between;
@@ -285,55 +221,20 @@ textarea {
   border-radius: 8px;
   cursor: pointer;
 }
-.user-info {
+.profile-link-wrapper {
+  text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 15px;
 }
 
-.nav-profile-pic {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #ffc107;
+.clickable {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
-.nav-profile-placeholder {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: #ffc107;
-  color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 18px;
-}
-.user-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.nav-profile-pic {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #ffd700;
-}
-
-.nav-profile-placeholder {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  background: #ffd700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 22px;
-  color: black;
+.clickable:hover {
+  transform: scale(1.1);
+  border-color: #ffd700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }

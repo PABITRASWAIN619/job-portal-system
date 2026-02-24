@@ -2,7 +2,6 @@
 
 .profile-container {
   min-height: 100vh;
-  /* Matching your dashboard's deep theme */
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   display: flex;
   justify-content: center;
@@ -12,37 +11,31 @@
 }
 
 .profile-card {
-  /* Glassmorphism: Semi-transparent dark background */
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  
   width: 100%;
-  max-width: 420px; /* Reduced width to make it less "big" */
+  max-width: 420px;
   padding: 30px;
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  
   display: flex;
   flex-direction: column;
   color: white;
-  
-  /* Floating Animation */
   animation: float 4s ease-in-out infinite;
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
+  0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
 }
 
 .profile-card h2 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
-  color: #ffd700; /* Gold header to match your logo */
+  color: #ffd700;
   letter-spacing: 1px;
 }
 
@@ -52,7 +45,7 @@
 }
 
 .profile-image {
-  width: 100px; /* Smaller image */
+  width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
@@ -60,7 +53,6 @@
   padding: 3px;
 }
 
-/* Inputs: Transparent with bottom border */
 .profile-card input,
 .profile-card textarea {
   background: rgba(255, 255, 255, 0.08);
@@ -86,10 +78,9 @@
 }
 
 .profile-card textarea {
-  height: 70px; /* Smaller textarea */
+  height: 70px;
 }
 
-/* Premium Buttons */
 .profile-card button {
   padding: 12px;
   border: none;
